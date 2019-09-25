@@ -62,13 +62,41 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {this.state.usuarios.map((unUsuarioDelArray, indice) => (
-          <UsuarioComponente
-            key={indice}
-            {...unUsuarioDelArray}
-            seleccionar={this.seleccionarUsuarioAEditar}
-          />
-        ))}
+        <h1>Usuarios</h1>
+        <div className="special-thanks">
+          Estilos por nikhil8krishnan en{" "}
+          <a
+            href="https://codepen.io/nikhil8krishnan/pen/WvYPvv"
+            target="_blank"
+          >
+            codepen
+          </a>
+        </div>
+        <div className="tbl-header">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>email</th>
+                <th>telefono</th>
+                <th>Editar</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+        <div className="tbl-content">
+          <table cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              {this.state.usuarios.map((unUsuarioDelArray, indice) => (
+                <UsuarioComponente
+                  key={indice}
+                  {...unUsuarioDelArray}
+                  seleccionar={this.seleccionarUsuarioAEditar}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
         <FormularioUsuario
           {...this.state.usuarioAEditar}
           onUsuarioChange={this.onUsuarioChange}

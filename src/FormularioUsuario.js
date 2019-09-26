@@ -4,9 +4,10 @@ const FormularioUsuario = ({
   nombre = "",
   email = "",
   telefono = "",
-  onUsuarioChange = () => {}
+  onUsuarioChange = () => {},
+  onUserCreate = () => {}
 }) => (
-  <form>
+  <form onSubmit={onUserCreate}>
     Nombre
     <input name="nombre" value={nombre} onChange={onUsuarioChange} />
     Email

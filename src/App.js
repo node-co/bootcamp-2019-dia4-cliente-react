@@ -7,38 +7,41 @@ class App extends React.Component {
   constructor() {
     super();
     this.seleccionarUsuarioAEditar = this.seleccionarUsuarioAEditar.bind(this);
+    this.state = {
+      usuarioAEditar: {
+        nombre: "",
+        email: "",
+        telefono: ""
+      },
+      usuarios: [
+        {
+          nombre: "usuario0",
+          email: "usuario0@gmail.com",
+          telefono: "2342354345435"
+        },
+        {
+          nombre: "usuario1",
+          email: "usuario1@gmail.com",
+          telefono: "2342354345435"
+        },
+        {
+          nombre: "usuario2",
+          email: "usuario2@gmail.com",
+          telefono: "2342354345435"
+        },
+        {
+          nombre: "usuario3",
+          email: "usuario3@gmail.com",
+          telefono: "2342354345435"
+        },
+        {
+          nombre: "usuario4",
+          email: "usuario4@gmail.com",
+          telefono: "2342354345435"
+        }
+      ]
+    };
   }
-
-  state = {
-    usuarioAEditar: {},
-    usuarios: [
-      {
-        nombre: "usuario0",
-        email: "usuario0@gmail.com",
-        telefono: "2342354345435"
-      },
-      {
-        nombre: "usuario1",
-        email: "usuario1@gmail.com",
-        telefono: "2342354345435"
-      },
-      {
-        nombre: "usuario2",
-        email: "usuario2@gmail.com",
-        telefono: "2342354345435"
-      },
-      {
-        nombre: "usuario3",
-        email: "usuario3@gmail.com",
-        telefono: "2342354345435"
-      },
-      {
-        nombre: "usuario4",
-        email: "usuario4@gmail.com",
-        telefono: "2342354345435"
-      }
-    ]
-  };
 
   seleccionarUsuarioAEditar(usuario) {
     this.setState({ usuarioAEditar: usuario });
@@ -48,15 +51,43 @@ class App extends React.Component {
     const namedelinput = evento.target.name;
     console.log("namedelinput", namedelinput);
 
+    let { usuarioAEditar } = this.state;
+    let newUsuario = { ...usuarioAEditar };
+
     const valordelinput = evento.target.value;
     console.log("valordelinput", valordelinput);
 
-    this.setState({
-      usuarioAEditar: {
-        ...this.state.usuarioAEditar,
-        [namedelinput]: valordelinput
-      }
-    });
+    newUsuario[namedelinput] = valordelinput;
+
+    this.setState(estadoActual => ({
+      ...estadoActual,
+      usuarioAEditar: newUsuario
+    }));
+
+    console.log(this.state);
+  };
+
+  crearNuevoUsuario = evento => {
+    evento.preventDefault();
+    fetch("http://localhost:3001/usuarios", {
+      method: "POST",
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache",
+      //credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state.usuarioAEditar) // body data type must match "Content-Type" header
+    })
+      .then(respuestaStream => respuestaStream.json())
+      .then(usuarioRecienCreado => {
+        let { usuarios } = this.state;
+        let nuevosUsuarios = [...usuarios, usuarioRecienCreado];
+        this.setState({
+          usuarios: nuevosUsuarios
+        });
+      })
+      .catch(error => console.log(error));
   };
 
   render() {
@@ -100,6 +131,7 @@ class App extends React.Component {
         <FormularioUsuario
           {...this.state.usuarioAEditar}
           onUsuarioChange={this.onUsuarioChange}
+          onUserCreate={this.crearNuevoUsuario}
         />
       </div>
     );

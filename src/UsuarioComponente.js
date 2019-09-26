@@ -6,14 +6,16 @@ const UsuarioComponente = ({
   telefono,
   seleccionar = () => {}
 }) => (
-  <div className="usuario">
-    <span className="nombre">{nombre}</span>
-    <span className="email">{email}</span>
-    <span className="telefono">{telefono}</span>
-    <button onClick={() => seleccionar({ nombre, email, telefono })}>
-      editar
-    </button>
-  </div>
+  <tr>
+    <td>{nombre}</td>
+    <td>{email}</td>
+    <td>{telefono}</td>
+    <td>
+      <button onClick={() => seleccionar({ nombre, email, telefono })}>
+        editar
+      </button>
+    </td>
+  </tr>
 );
 
 export default UsuarioComponente;
